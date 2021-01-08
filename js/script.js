@@ -1,3 +1,21 @@
+// initialising variables that contain (most of) the elements in the HTML file
+var hsLink = document.getElementById("high-score-link");
+var timeDiv = document.getElementById("timer");
+var homeDiv = document.getElementById("home");
+var quizDiv = document.getElementById("quiz");
+var endDiv = document.getElementById("endgame");
+var hsDiv = document.getElementById("high-scores");
+var purpleButtons = document.getElementsByClassName("pbtn");
+var startButton = document.getElementById("start");
+var questionH1 = document.getElementById("question");
+var ansButtons = document.getElementsByClassName("answers");
+var scoreSpan = document.getElementById("score");
+var initialsInput = document.getElementById("initials");
+var submitButton = document.getElementById("submit");
+var scoreList = document.getElementById("score-list");
+var goBackButton = document.getElementById("go-back");
+var clearButton = document.getElementById("clear");
+
 var questionList = [
     {
         question: "Inside which HTML element do we put the JavaScript?",
@@ -45,24 +63,30 @@ var questionList = [
     }
 ];
 var qNum = 0;
-var timer = 90;
+var timer;
+var interval;
 function startQuiz() {
-    document.getElementById("timer").textContent = "Time: "+timer--;
-    var interval = setInterval(function() {
-        document.getElementById("timer").textContent = "Time: "+timer--;
-        if (timer <= -1) {
-            document.getElementById("timer").textContent = "Time: 0";
-            clearInterval(interval);
-        }
-    }, 100);
-    document.getElementById("home").style.display = "none";
-    document.getElementById("quiz").style.display = "block";
+    timer = 91;
+    timeDiv.textContent = "Time: "+--timer;
+    interval = setInterval(function() {
+        timeDiv.textContent = "Time: "+--timer;
+        var smallInterval = setInterval(function() {
+            if (timer < 0) {
+                timer = 0;
+                endQuiz();
+                clearInterval(smallInterval);
+            }
+        }, 1);
+    }, 1000);
+    homeDiv.style.display = "none";
+    quizDiv.style.display = "block";
 }
-var qDiv, ans, response, colour; 
+var response, colour; 
 function showQuestion(index) {
     if (qNum !== 0 && index == questionList[qNum-1].correct) {
         response = "Correct!";
         colour = "green";
+        score++;
     } else if (qNum !== 0) {
         response = "Incorrect!";
         colour = "red";
@@ -75,26 +99,76 @@ function showQuestion(index) {
     responseText.style.color = colour;
     responseText.style.fontWeight = 900;
     if (qNum != 0) {
-        document.getElementById("quiz").appendChild(hr);
+        quizDiv.appendChild(hr);
+        quizDiv.appendChild(responseText);
     }
-    document.getElementById("quiz").appendChild(responseText);
     setTimeout(function() {
         hr.style.display = "none";
         responseText.style.display = "none";
     }, 1000);
-    qDiv = document.getElementById("question");
-    ans = document.getElementsByClassName("answers");
-    qDiv.innerText = questionList[qNum].question;
-    for (var i=0;i<ans.length;i++) {
-        ans[i].innerText = questionList[qNum].ansList[i];
+
+    if (qNum === questionList.length) {
+        endQuiz();
+    } else {
+        questionH1.innerText = questionList[qNum].question;
+        for (var i=0;i<ansButtons.length;i++) {
+            ansButtons[i].innerText = questionList[qNum].ansList[i];
+        }
+        qNum++;
     }
-    qNum++;
 }
 
-document.getElementById("start").addEventListener("click",startQuiz);
-var quizButtons = document.getElementsByClassName("pbtn");
-quizButtons[0].addEventListener("click",function() { showQuestion(0) });
-quizButtons[1].addEventListener("click",function() { showQuestion(0) });
-quizButtons[2].addEventListener("click",function() { showQuestion(1) });
-quizButtons[3].addEventListener("click",function() { showQuestion(2) });
-quizButtons[4].addEventListener("click",function() { showQuestion(3) });
+function endQuiz() {
+    timeDiv.textContent = "Time: "+timer;
+    scoreSpan.innerText = timer+".";
+    quizDiv.style.display = "none";
+    endDiv.style.display = "block";
+    qNum = 0;
+    clearInterval(interval);
+}
+
+startButton.addEventListener("click",startQuiz);
+purpleButtons[0].addEventListener("click",function() { showQuestion(0) });
+purpleButtons[1].addEventListener("click",function() { showQuestion(0) });
+purpleButtons[2].addEventListener("click",function() { showQuestion(1) });
+purpleButtons[3].addEventListener("click",function() { showQuestion(2) });
+purpleButtons[4].addEventListener("click",function() { showQuestion(3) });
+
+hsLink.addEventListener("click",function(event) {
+    event.preventDefault();
+    homeDiv.style.display = "none";
+    endDiv.style.display = "none";
+    hsLink.style.display = "none";
+    timeDiv.style.display = "none";
+    quizDiv.style.display = "none";
+    hsDiv.style.display = "block";
+});
+
+
+submitButton.addEventListener("click",function() {
+    endDiv.style.display = "none";
+    hsLink.style.display = "none";
+    timeDiv.style.display = "none";
+    hsDiv.style.display = "block";
+    var scoreItem = document.createElement("li");
+    scoreItem.textContent = initialsInput.value + " - " + timer;
+    scoreList.appendChild(scoreItem);
+    if ((document.getElementsByTagName("li").length % 2) !== 0) {
+        scoreItem.style.backgroundColor = "lavender";
+    }
+});
+
+goBackButton.addEventListener("click",function() {
+    hsDiv.style.display = "none";
+    hsLink.style.display = "block";
+    timeDiv.textContent = "Time: 0";
+    timeDiv.style.display = "block";
+    homeDiv.style.display = "block";
+});
+
+
+clearButton.addEventListener("click", function() {
+    while (scoreList.hasChildNodes()) {  
+        scoreList.removeChild(scoreList.firstChild);
+    }
+});
