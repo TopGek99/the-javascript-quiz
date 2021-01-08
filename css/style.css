@@ -9,6 +9,7 @@ a, a:hover {
     margin: 5px;
 }
 .content {
+    font-size: 1.2em;
     text-align: center;
     width: 40%;
     margin: 12% 30%;
@@ -31,6 +32,9 @@ a, a:hover {
 }
 #quiz, #endgame, #high-scores {
     display: none;
+}
+label, input, button {
+    vertical-align: middle;
 }
 ol {
     text-align: left;
