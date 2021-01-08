@@ -5,9 +5,64 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+    <style>
+        #high-score {
+            margin: 5px;
+        }
+        a, a:hover {
+            color: blueviolet;
+            text-decoration: none;
+        }
+        #timer {
+            margin: 5px;
+        }
+        .content {
+            text-align: center;
+            margin-top: 150px;
+        }
+        #description {
+            margin-top: 30px;
+            padding: 0% 30%;
+        }
+        .pbtn, .pbtn:hover {
+            background-color: blueviolet;
+            color: white;
+            border: 1px solid black;
+        }
+        .answers {
+            display: block;
+            margin-bottom: 5px;
+        }
+        #answerDiv {
+            margin-top: 20px;
+        }
+        #quiz {
+            text-align: center;
+            display: none;
+            width: 33%;
+            margin-left: 33%;
+        }
+    </style>
 </head>
 <body>
-    
-    <script type="text/javascript" src="script.js"></script>
+    <div id="high-score">
+        <a href="">View Highscores</a>
+    </div>
+    <div id="timer">Time: 0</div>
+    <div id = "home" class="content">
+        <h1>The JavaScript Quiz</h1>
+        <p id="description">The following quiz is designed to test your current knowledge of the programming language JavaScript. Click the Start button to continue.</p>
+        <button type="button" id="start" class="btn pbtn">Start</button>
+    </div>
+    <div id="quiz" class="content">
+        <h1 id="question"></h1>
+        <div id="answerDiv">
+            <button type="button" class="btn pbtn answers"></button>
+            <button type="button" class="btn pbtn answers"></button>
+            <button type="button" class="btn pbtn answers"></button>
+            <button type="button" class="btn pbtn answers"></button>
+        </div>
+    </div>
+    <script type="text/javascript" src="js/script.js"></script>
 </body>
 </html>
