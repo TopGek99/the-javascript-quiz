@@ -15,7 +15,7 @@ var questionList = [
         correct: 2
     },
     {
-        questionq: "How do you write \"Hello World\" in an alert box?", 
+        question: "How do you write \"Hello World\" in an alert box?", 
         ansList: ["msg(\"Hello World\");","alert(\"Hello World\");","msgBox(\"Hello World\");","alertBox(\"Hello World\");"], 
         correct: 1
     },
@@ -45,22 +45,56 @@ var questionList = [
     }
 ];
 var qNum = 0;
+var timer = 90;
 function startQuiz() {
+    document.getElementById("timer").textContent = "Time: "+timer--;
+    var interval = setInterval(function() {
+        document.getElementById("timer").textContent = "Time: "+timer--;
+        if (timer <= -1) {
+            document.getElementById("timer").textContent = "Time: 0";
+            clearInterval(interval);
+        }
+    }, 100);
     document.getElementById("home").style.display = "none";
     document.getElementById("quiz").style.display = "block";
-    showQuestion();
 }
-function showQuestion() {
-    var qDiv = document.getElementById("question");
-    var ans = document.getElementsByClassName("answers");
-    qDiv.innerText= questionList[qNum].question;
+var qDiv, ans, response, colour; 
+function showQuestion(index) {
+    if (qNum !== 0 && index == questionList[qNum-1].correct) {
+        response = "Correct!";
+        colour = "green";
+    } else if (qNum !== 0) {
+        response = "Incorrect!";
+        colour = "red";
+        timer -= 15;
+    }
+    var hr = document.createElement("hr");
+    var responseText = document.createElement("p");
+    responseText.textContent = response;
+    hr.style.color = colour;
+    responseText.style.color = colour;
+    responseText.style.fontWeight = 900;
+    if (qNum != 0) {
+        document.getElementById("quiz").appendChild(hr);
+    }
+    document.getElementById("quiz").appendChild(responseText);
+    setTimeout(function() {
+        hr.style.display = "none";
+        responseText.style.display = "none";
+    }, 1000);
+    qDiv = document.getElementById("question");
+    ans = document.getElementsByClassName("answers");
+    qDiv.innerText = questionList[qNum].question;
     for (var i=0;i<ans.length;i++) {
         ans[i].innerText = questionList[qNum].ansList[i];
     }
     qNum++;
 }
+
 document.getElementById("start").addEventListener("click",startQuiz);
 var quizButtons = document.getElementsByClassName("pbtn");
-for (var i=0;i<quizButtons.length;i++) {
-    quizButtons[i].addEventListener("click",showQuestion);
-}
+quizButtons[0].addEventListener("click",function() { showQuestion(0) });
+quizButtons[1].addEventListener("click",function() { showQuestion(0) });
+quizButtons[2].addEventListener("click",function() { showQuestion(1) });
+quizButtons[3].addEventListener("click",function() { showQuestion(2) });
+quizButtons[4].addEventListener("click",function() { showQuestion(3) });
