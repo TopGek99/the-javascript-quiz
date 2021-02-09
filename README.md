@@ -11,6 +11,14 @@ The webpage is desgined such that the most of the HTML to be displayed to the us
 simple DOM manipulation the user only sees the content necessary depending on the circumstances. Some elements are however also created "on the fly"
 using JavaScripts DOM methods (specifically createElement), as the content of them totally or mostly depends on the users input.
 
+## Technologies
+
+- HTML
+- CSS
+- Bootstrap CSS
+- JavaScript
+- jQuery
+
 ## Screenshots
 
 ![landing page](img/home-page.png)
@@ -20,5 +28,13 @@ using JavaScripts DOM methods (specifically createElement), as the content of th
 
 ## Links
 
-- Repo (Yes this one): https://github.com/TopGek99/the-javascript-quiz
-- Webpage: https://topgek99.github.io/the-javascript-quiz
+- [Repo (Yes this one)](https://github.com/TopGek99/the-javascript-quiz)
+- [Webpage](https://topgek99.github.io/the-javascript-quiz)
+
+## Credits
+
+[Me](https://github.com/TopGek99/)
+
+## License
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
